@@ -1,0 +1,32 @@
+---
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: check-yaml
+      #- id: check-toml
+      # - id: check-xml
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-shebang-scripts-are-executable
+      - id: mixed-line-ending
+      # - id: forbid-new-submodules
+      #- id: requirements-txt-fixer
+      - id: check-executables-have-shebangs
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: mixed-line-ending
+  - repo: local
+    hooks:
+      - id: check-unicode-characters
+        name: Running ./.meta/check_unicode_characters.sh
+        entry: bash ./.meta/check_unicode_characters.sh
+        stages: [commit]
+        language: system
+  - repo: meta
+    hooks:
+      - id: check-hooks-apply
+      - id: check-useless-excludes
