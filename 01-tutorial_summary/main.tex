@@ -1,0 +1,2094 @@
+% You should not modify anything from here ... -------------
+\nonstopmode
+%\batchmode
+
+\documentclass[11pt,a4paper]{article}
+\usepackage[english]{babel}
+\usepackage{microtype,etex,listings,color,parskip}
+\usepackage[margin=2cm]{geometry}
+\usepackage{hyperref}
+\usepackage[table]{xcolor}
+\usepackage{array}
+\renewcommand{\arraystretch}{1.5}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{indentfirst}
+\usepackage{kotex}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{tabularx}
+
+% 하이퍼링크
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+
+\urlstyle{same}
+
+% 페이지 여백 처리
+\usepackage{geometry}
+\geometry{left=25mm,right=25mm,%
+bindingoffset=0mm, top=20mm,bottom=20mm}
+
+\newcommand{\linia}{\rule{\linewidth}{0.8pt}}
+
+% my own titles
+\makeatletter
+\renewcommand{\maketitle}{
+\begin{center}
+\vspace{2ex}
+{\huge \textsc{\@title}}
+\vspace{1ex}
+\\
+\linia\\
+\@author \hfill \@date
+\vspace{4ex}
+\end{center}
+}
+\makeatother
+%%%
+
+% code listing settings
+\usepackage{listings}
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    aboveskip={1.0\baselineskip},
+    belowskip={1.0\baselineskip},
+    columns=fixed,
+    extendedchars=true,
+    breaklines=true,
+    tabsize=4,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color[rgb]{0.627,0.126,0.941},
+    commentstyle=\color[rgb]{0.133,0.545,0.133},
+    stringstyle=\color[rgb]{01,0,0},
+    numbers=left,
+    numberstyle=\small,
+    stepnumber=1,
+    numbersep=10pt,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+
+%%%----------%%%----------%%%----------%%%----------%%%
+
+\begin{document}
+
+\title{Programming Assignment \textnumero{}.1}
+
+\author{2024***** Jung SeonKyung, CNU}
+
+\date{\today}
+
+\maketitle
+
+% -------------------------------------------------------------------
+% Contents
+% -------------------------------------------------------------------
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% NOTE: You MUST read and follow Appendix E of the lecture notes! %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{\LARGE\textbf{An Informal Introduction to Python}}
+\subsection{\Large\textbf{Using Python as a calculator}}
+
+\begin{spacing}{1.5}
+\subsubsection{\Large\textbf{Number}}
+\texttt{▷} \textbf{int, float}: 정수형과 실수형 존재\\
+\texttt{▷} \textbf{산술 연산자}: +, -, *, /, //, **, \%\\
+\end{spacing}
+
+\begin{lstlisting}[label={list:first},caption=Arithmetic Operators \texttt{\_} 산술연산자]
+num1=7
+num2=4
+num1+=num1
+num2+=num1
+var0=num2/num1
+var1=num2**2
+var2=var1%num1
+var3=var1//num1
+print(num2)
+print(var0)
+print(var1)
+print(var2)
+print(var3)
+
+-----------------------------
+a=2^4
+b=2**4
+print(a)
+print(b)
+\end{lstlisting}
+\texttt{*} 우리가 흔히 거듭제곱할 때 사용하는 \texttt{\^}는 파이썬에서 \texttt{**}와 동일하게 작용하지 않는다.\\
+
+\begin{spacing}{1.5}
+\texttt{▷} 파이썬에서 일반적으로 나타나는 에러들(Error): \textbf{Python Error}\\
+\texttt{-} ValueError: 부적절한 값을 가진 인자를 받았을 때 발생하는 에러\\
+\texttt{-} SyntaxError: 문법 오류\\
+\texttt{-} TypeError: 서로 다른 타입으로 연산하려고 할 때 발생\\
+\texttt{-} ZeroDivisionError: 숫자를 0으로 나누려는 경우 발생\\
+\end{spacing}
+
+\texttt{▷} \textbf{대화형 모드}(인터프리터 모드): IDLE 사용 등의 여러 방법으로 실행 가능\\
+\texttt{-} 앞전에 출력된 표현식이 빈 변수 \texttt{\_}에 저장됨: 연쇄적인 계산에 편리\\
+\begin{lstlisting}[label={list:first},caption=대화형 모드 -- 변수`\texttt{\_}' 설명]
+>>> kor=98
+>>> eng=85
+>>> math=91
+>>> kor + eng
+# 183
+>>> math + _
+# 274
+>>> _/3
+# 91.333...
+>>> round(_, 2)
+# 91.33
+\end{lstlisting}
+\texttt{*} 단, 무조건 가장 최근에 출력된 표현식만 \texttt{\_}에 저장됨
+
+\begin{spacing}{1.5}
+\texttt{▷} \textbf{Decimal과 Fraction}\\
+\hspace*{2em}: 기본적으로 내장되어있는 타입이 아님 \texttt{→} 특정 모듈 불러와야함\\
+1) \textbf{Fraction}: fractions.Fraction(분자, 분모) \texttt{→} \textbf{int와 float} 타입 모두와 연산 가능\\
+2) \textbf{Decimal}: decimal.Decimal(str) \texttt{→} 객체 생성 시 \textbf{str} 타입이고, 부동 소숫점 정리\\
+\hspace*{2em}\textbf{int} 타입과 연산 가능 (float는 불가), timeit 모듈로 확인한 결과 처리 속도는 떨어짐(성능 \texttt{↓})\\
+- Decimal 사용 시, 무조건 str 아니면 int를 통해 생성해야 함(float는 오류 발생)
+\begin{lstlisting}[label={list:first}]
+print(value:=0.1+0.2)
+
+from decimal import Decimal
+print(value1:=Decimal('0.1')+Decimal('0.2'))
+\end{lstlisting}\\
++ 추가)  복소수에 대한 지원도 내장함
+\end{spacing}
+
+\subsubsection{\Large\textbf{Text}}
+\begin{spacing}{1.5}
+\texttt{▷} Python 구성: \textbf{텍스트}(string, type: str) \texttt{+} \textbf{숫자}(number)\\
+\hspace*{2em}\texttt{→} string: ``!", ``rabbit", ``Paris", ``Got your back.", ``Yay! :)", ``2005" 등\\
+\hspace*{2em}\texttt{→} string은 작은 따옴표(`...') 또는 큰 따옴표(``...")로 둘러쌓인 형태\\
+\hspace*{2em}\texttt{→} string 내에서 따옴표를 써야하는 경우\\
+\hspace*{4em}Ex) 'doesn't' (X)\\
+\hspace*{4em}Ex) \verb|'doesn\'t'| (O)\qquad\verb|#|escape code`\verb|\|'를 사용해 문자열 내에 따옴표를 의도대로 쓸 수 있음
+\end{spacing}
+
+\begin{spacing}{1.5}
+\texttt{▷} \textbf{escape code} 사용하기\\
+\hspace*{2em}\texttt{*} escape code는 string에만 적용됨\\
+\texttt{-} \verb|\n|: 문자열 안에서 줄 바꿀 때 사용\\
+\hspace*{2em}\texttt{+}추가: 줄바꿈을 좀 더 쉽게 사용하는 방법\\
+\begin{lstlisting}[label={list:first},caption=escape code -- 줄 바꾸기]
+sen1=`This is Python.'
+sen2=`This is\nPython.'
+sen3=```This is
+Python.'''
+print(sen1)
+print(sen2)
+print(sen3)
+\end{lstlisting}\\
+\verb|>>>| This is Python.\\
+\verb|>>>| This is\\
+Python.\\
+\verb|>>>| This is\\
+Python.\\
+
+\hspace*{4em}\texttt{*} 위 예시에서 sen3의 경우를 `string literals' 라고 함\\
+\hspace*{4em}\texttt{▷}\textbf{string literals}: 프로그래밍에서 따옴표에 둘러싸인 문자열 시퀀스
+\begin{lstlisting}[label={list:first},caption=string literals]
+print("""\
+      This sentence is
+      for Python
+      string literals practice.
+      """)
+\end{lstlisting}
+\hspace*{4em}\texttt{→} 사용 방법: triple-quotes (\verb|"""..."""| or \verb|```...'''|)\\
+\hspace*{4em} : escape code `\verb|\|n' 보다 여러 줄의 문장을 나타내기 수월함\\
+\hspace*{4em} : \verb|\|을 각 줄의 끝에 넣으면 해당 줄의 줄바꿈을 없앨 수 있음(문장 이어붙이기)\\
+
+\texttt{-} \verb|\t|: 문자열 사이에 탭 간격(Tab) 줄 때 사용\\
+\texttt{-} \verb|\\|: 문자 \verb|\|를 그대로 표현할 때 사용\\
+\texttt{-} \verb|\'|: 작은 따옴표(')를 그대로 표현할 때 사용\\
+\texttt{-} \verb|\"|: 큰 따옴표(")를 그대로 표현할 때 사용
+\end{spacing}
+
+\texttt{+}추가: \verb|\| 뒤에 오는 문자가 escape code처럼 특수 문자로 취급되지 않아야 하는 경우\\
+\hspace*{2em}: string의 따옴표(') 앞에 \textbf{r}을 붙여서 \textbf{`raw string'}을 만든다.\\
+\begin{lstlisting}[label={list:first},caption=escape code -- raw string]
+print('C:\some\name')
+>>> C:\some
+ame
+print(r'C:\some\name')
+>>> C:\some\name
+\end{lstlisting}\\
+
+\begin{spacing}{1.5}
+\texttt{▷}: 산술 연산자 \texttt{+}는 문자열끼리 연결\\
+\texttt{▷}: 산술 연산자 \texttt{*}는 문자열을 지정한 횟수만큼 반복
+\end{spacing}
+
+\begin{lstlisting}[label={list:first},caption=string literals \texttt{+} Arithmetic Operators]
+print('Py'+'thon')
+>>> Python
+print('Py'+'th'+'o'*4+'n')
+>>> Pythoooon
+\end{lstlisting}\\
+
+\texttt{▷}: 두 개 이상의 string literals를 나란히 작성 \texttt{→} 해당 문자열들은 연결됨( + 생략 가능)\\
+\hspace*{1.5em} 이 방법은 긴 문자열을 작성할 때 유용함
+\begin{lstlisting}[label={list:first},caption=long string]
+print('Py''thon')
+>>> Python
+print('Put several strings within parentheses '
+      'to have them joined together.')
+>>> Put several ... joined together.
+\end{lstlisting}\\
+
+\begin{spacing}{1.5}
+\texttt{▷} \textbf{Index}: 문자열 내의 각 문자에 접근하기 위해 사용되는 위치 번호\\
+\hspace*{5em} 왼쪽부터 0, 1, 2 ... 의 순으로 증가(정방향)\\
+\hspace*{5em} 오른쪽부터 -1, -2 ... 의 순으로 감소(역방향)
+\end{spacing}
+\begin{lstlisting}[label={list:first},caption=Index]
+word='''This is
+Python programe'''
+print(word[6])
+>>> s
+print(word[9])
+>>> y
+print(word[-1])
+>>> e
+\end{lstlisting}\\
+
+\texttt{▷} \textbf{Slicing}: 문자열의 index에서 특정 범위의 요소를 추출 [ : ]
+\begin{lstlisting}[label={list:first},caption=Slicing]
+word='''This is
+Python programe'''
+print(word[8:14])
+>>> Python
+print(word[-15:-9])
+>>> python
+\end{lstlisting}\\
+
+\begin{spacing}{1.5}
+\texttt{→} slicing: 추출하고자 하는 요소의 word[ 시작 위치번호 : 끝 위치번호+1 ]\\
+\texttt{+} 추가: word[  : i ](처음부터 i-1번째까지 추출) or word[ i :  ](i번째부터 끝까지)\\
+\end{spacing}
+\begin{lstlisting}[label={list:first},caption=Index example]
+     +---+---+---+---+---+---+
+     | P | y | t | h | o | n |
+     +---+---+---+---+---+---+
+     0   1   2   3   4   5   6
+    -6  -5  -4  -3  -2  -1
+\end{lstlisting}\\
+\texttt{→} 슬라이스의 길이는 [ i : j ]에서 j - i를 하면 나오는 값\\
+\hspace*{1em}\textbf{len()} 함수를 사용하면 쉽게 슬라이스 길이를 알 수 있음\\
+
+\texttt{▷} \textbf{Mutable 또는 Immutable 객체}\\
+
+\begin{tabular}{|>{\centering\arraybackslash}m{4cm}|>{\centering\arraybackslash}m{6cm}|}
+\hline
+\rowcolors[gray]{0.9}
+\verb|\textbf{구분}| & \textbf{타입} \\
+\hline
+Immutable 객체 & int, float, str \\
+\hline
+Mutable 객체 & list, dict \\
+\hline
+\end{tabular}\\
+
+\hspace*{2em}1) Immutable 객체: 수정이 불가능한 타입(ex: str)
+\begin{lstlisting}[label={list:first}]
+word='Python'
+print(word[0]='j')
+\end{lstlisting}\\
+\hspace*{4em}\verb|>>>| TypeError: 'str' object does not support item assignment\\
+
+\hspace*{2em}2) Mutable 객체: 수정이 가능한 타입\\
+
+\texttt{▷} \textbf{len()}: 문자열, 리스트, 튜플 등에 포함된 요소의 개수(길이) 반환\\
+
+\subsubsection{\Large\textbf{List}}
+\begin{spacing}{1.5}
+\texttt{▷} \textbf{list}: 형태: [ ], 여러 요소(int, float, str)들을 하나의 리스트로 저장\\
+\texttt{-} Mutable 객체(+ most versatile)\\
+\texttt{-} string처럼 \textbf{index}, \textbf{slicing} 그리고 \textbf{len()} 등이 적용됨
+\end{spacing}
+\begin{lstlisting}[label={list:first},caption=about list]
+list1=['This','is','Python','practice','code','.']
+length=len(list1)
+print(list1[2])
+>>> Python
+print(list1[-6:-3])
+>>> ['This','is','Python']
+print(length)
+>>> 6
+\end{lstlisting}\\
+
++ More about) \textbf{slicing}(추출)\\
+\large\textbf{EX}\\
+listA=[`A',`B',`C',`D',`E',`F']      \texttt{←}   문자 B 에서 D까지의 요소를 추출하고 싶음\\
+listA[1:4]       \texttt{→}   결과: [`B',`C',`D']\\
+
+listB=[1,2,3,4,5,6]       \texttt{←}    index 0부터 2칸 간격에 있는 요소만 추출하고 싶음\\
+listB[::2]       \texttt{→}    [1,3,5]\\
+listB[1::2]       \texttt{→}    [2,4,6]     index 1부터 2칸 간격에 있는 요소만 추출할 경우\\
+
+\begin{spacing}{1.5}
+\texttt{▷} 산술 연산자 \texttt{+}는 리스트끼리 연결\\
+
+\texttt{▷} string과 달리 \textbf{Mutable 객체}로써 요소 수정 가능(by `=')
+\begin{lstlisting}[label={list:first}]
+list1=['This','is','Python','practice','code','.']
+list1[2]='C'
+print(list1)
+>>> ['This','is','C','practice','code','.']
+\end{lstlisting}
+
+\texttt{▷} \textbf{append()}: 메소드 type, 기본 리스트의 마지막 요소 다음에 새로운 요소 추가 시 사용\\
+\hspace*{2em}\texttt{*} Method는 \textbf{(기존 리스트 변수명).append(추가하려는 요소)} 방식으로 사용\\
+
+\texttt{▷} 기본 리스트에 새로운 변수명 할당하는 경우
+\begin{lstlisting}[label={list:first}]
+login=['id','pw']
+logout=login
+print(id(login)==id(logout))
+>>> True
+logout.append('hint')
+print(login)
+>>> ['id','pw','hint']
+\end{lstlisting}
+\texttt{→} 기존 리스트(login)와 새로 할당한 변수(logout)은 동기화됨\\
+
+\texttt{▷} \textbf{빈 list} 사용하기: [ ]\\
+\texttt{→} 리스트 요소 중 삭제하고 싶은 범위 `Slicing' \texttt{→} slicing한 부분을 빈 list `[ ]'로 할당
+\begin{lstlisting}[label={list:first}]
+alpha=['a','b','c','d','e','f','g']
+alpha[1]=[]
+print(alpha)
+>>> ['a',[],'c','d','e','f','g']
+alpha[-3:]=[]
+print(alpha)
+>>> ['a',[],'c','d']
+alpha[:]=[]
+print(alpha)
+>>> []
+\end{lstlisting}\\
+\verb|#| alpha[index]=[ ] 와 alpha[slicing]=[ ] 의 결과가 다르게 도출\\
+
+\texttt{▷} \textbf{이중 list}: [[     ], [     ]]
+\begin{lstlisting}[label={list:first},caption=이중 리스트문]
+number=[[10,20,30],[40,50,60,70]]
+print(number[1][3])
+>>> 70
+print(number[0][1:])
+>>> [20,30]
+\end{lstlisting}\\
+\texttt{→} number[전체 리스트의 요소][그 요소의 개별 요소]: 이중 list 사용 가능\\
+
+\subsection{\Large\textbf{First Steps Towards Programming}}
+\texttt{<} More complicated tasks \texttt{>}
+\begin{lstlisting}[label={list:first},caption=More complicated tasks Ex (Fibonacci numbers)]
+alpha=['a','b','c','d','e','f','g']
+newalpha=[]
+for i in range(len(alpha)):
+    if i<5:
+        print(alpha[i],end=',')
+        newalpha.append(alpha[i])
+print()
+print(newalpha)
+\end{lstlisting}
+\texttt{>>>} a, b, c, d, e\\
+\texttt{>>>} ['a', 'b', 'c', 'd', 'e']
+\end{spacing}\\
+
+\begin{spacing}{1.5}
+\texttt{-} 비교 연산자: \verb|<, >, ==, <=, >=, !=| (작다, 크다, 같다, 같거나 작다, 같거나 크다, 다르다)\\
+\texttt{-} \textbf{loop(루프)}: for문, while문 등\\
+\hspace*{3em}\texttt{→} loop 안의 코드는 반드시 \textbf{들여쓰기} 실행 (파이썬에서 여러 문장을 한 덩어리로 묶는 방법)\\
+\texttt{-} print() 함수 속 키워드 인자 \textbf{end=`  '}\\
+\hspace*{3em}\texttt{→} 위의 코드에서는 end=','를 통해 comma(,)로 출력 값들을 연결시킴\\
+\end{spacing}
+
++ {\Large\textbf{더 보기}}\\
+\begin{spacing}{1.5}
+
+\end{spacing}
+
+% 4장----------------------------------------------------------------------------------------
+
+\section{\LARGE\textbf{More Control Flow Tools}}
+\begin{spacing}{1.5}
+\subsection{\Large\textbf{if Statements}}\\
+\texttt{▷} \textbf{if문(조건문)}\\
+
+- if문에 쓰여진 조건을 만족하면 "True", 해당 조건의 반대를 만족하면 "False" 취함\\
+\hspace*{1em}(실제로 false가 아닌, 의미적인 면에서)\\
+
+- 문법: \textbf{if} ... elif(선택적) ... else(선택적)
+\begin{lstlisting}[label={list:first},caption=Coffee machin]
+americano=0
+latte=0
+tea=0
+juice=0
+print('Do you want some snack?')
+Ask1=input('please enter your decision (yes/no): ')
+while True:
+    if Ask1=='yes':
+        Ask2=input('What kind of drink would you like? (menu: americano, latte, tea, juice):')
+        if Ask2=='americano':
+            if americano<5:
+                print('Please take the americano')
+                print('-'*50)
+                americano+=1
+            else:
+                print('americano is sold out')
+                print('*'*50)
+                break
+
+        elif Ask2=='latte':
+            if latte<3:
+                print('Please take the latte')
+                print('-'*50)
+                latte+=1
+            else:
+                print('latte is sold out')
+                print('*'*50)
+                break
+
+        elif Ask2=='tea':
+            if tea<4:
+                print('Please take the tea')
+                print('-'*50)
+                tea+=1
+            else:
+                print('tea is sold out')
+                print('*'*50)
+                break
+
+        elif Ask2=='juice':
+            if juice<2:
+                print('Please take the juice')
+                print('-'*50)
+                juice+=1
+            else:
+                print('juice is sold out')
+                print('*'*50)
+                break
+
+        else:
+            print('We don\'t have a that menu.')
+    else:
+        print('Okay, good bye')
+\end{lstlisting}\\
+
+\subsection{\Large\textbf{for Statements}}\\
+\texttt{▷} \textbf{for문(반복문)}\\
+- \textbf{문법}: for   (시퀀스의 요소가 들어갈 변수)   in   (시퀀스)\\
++ 추가) 이중 for문 사용\\
+for문:\\
+\hspace*{2em}for문:\\
+\hspace*{4em}...
+
+\subsection{\Large\textbf{The range() Funciton}}\\
+\texttt{▷} \textbf{ragne( ) 함수}\\
+- \textbf{문법}: range(i) or range(i,k) or range(i,k,step)\\
+\hspace*{2em}\texttt{*} 끝의 숫자는 수열에 포함하지 않음\\
+\hspace*{3em}step: 입력한 숫자 크기만큼 증가 또는 감소하는 수열 생성\\
+
+- EX)\\
+\hspace*{2em}range(5) : 0, 1, 2, 3, 4\\
+\hspace*{2em}range(2,7) : 2, 3, 4, 5, 6\\
+\hspace*{2em}range(-5,-30,-5) : -5, -10, -15, -20, -25\\
+\hspace*{2em}range(-10,11,4) : -10, -6, -2, 2, 6, 10
+
+\begin{lstlisting}[label={list:first},caption=for Statements and range( )]
+total=[]
+drinks=['americano','latte','tea','juice']
+for drink in drinks:
+    alphabet=[]
+    for i in range(len(drink)):
+        alphabet.append(drink[i])
+    total.append(alphabet)
+print(total)
+\end{lstlisting}
+\verb|>>>| [['a', 'm', 'e', 'r', 'i', 'c', 'a', 'n', 'o'], ... ]\\
+
++ 추가)    \textbf{3.6 루프 테크닉} 참고\\
+`\textbf{range( ) + len( )}'   or   `\textbf{enumerate( )}'   or   \textbf{items( )} 함수, 메소드\\
+\begin{lstlisting}[label={list:first}]
+# range() + len()
+name=[]
+point=[]
+knights=['gallahad','the pure','robin','the brave','walter','a powerful lord']
+for i in range(len(knights)):
+    if i%2==0:
+        name.append(knights[i])
+    else:
+        point.append(knights[i])
+result=list(zip(name,point))
+print(result)
+
+
+# enumerate()
+name=[]
+point=[]
+knights=['gallahad','robin','walter','the pure','the brave','a powerful lord']
+for num,person in enumerate(knights):
+    if num<3:
+        name.append(person)
+    else:
+        point.append(person)
+print(list(zip(name,point)))
+
+
+# items( ) Method
+knights={'gallahad':'the pure','robin':'the brave','walter':'a powerful lord'}
+for name, point in knights.items():
+    print(f'{name:<10} : {point:<20}')
+\end{lstlisting}
+\verb|>>>| [('gallahad', 'the pure'), ('robin', 'the brave'), ('walter', 'a powerful lord')]\\
+
+\verb|>>>| [('gallahad', 'the pure'), ('robin', 'the brave'), ('walter', 'a powerful lord')]\\
+
+\verb|>>>| gallahad   : the pure   \\
+\verb|>>>| robin      : the brave           \\
+\verb|>>>| walter     : a powerful lord     \\
+
+\subsection{\Large\textbf{break and continue Statements}}\\
+\texttt{▷} \textbf{break}\\
+: break이 실행되면 loop를 빠져나옴 (더 이상 반복하지 않음)
+\begin{lstlisting}[label={list:first}]
+for i in range(5):
+    if i==4:
+        break
+    print(i)
+\end{lstlisting}
+\verb|>>>| 0, 1, 2, 3
+
++ 추가) \url{https://dojang.io/mod/page/view.php?id=2253} : break 이해하기
+
+\texttt{▷} \textbf{continue}\\
+: continue가 실행되면 다음 반복 구문으로 넘어감
+\begin{lstlisting}[label={list:first}]
+for num in range(1,11):
+    if num%2==0:
+        print(f'This is even floor: {num}')
+        continue
+    print(f'This is odd floor: {num}')
+\end{lstlisting}
+\verb|>>>| This is odd floor: 1\\
+\verb|>>>| This is even floor: 2\\
+...
+
++ 추가) \url{https://dojang.io/mod/page/view.php?id=2254} : continue 이해하기
+
+\subsection{\Large\textbf{else Clauses on Loops}}\\
+- loop가 break문 사용 없이 끝이 난 경우, 다음 문장으로 넘어감\\
+\hspace*{2em}for문: 시퀀스의 마지막 요소까지 실행되고 난 후\\
+\hspace*{2em}while문: loop실행 조건이 True    \texttt{→}    False\\
+
++ 참고서 예시( break문 이해를 위해 참고서의 예시 사용함  )
+\begin{lstlisting}[label={list:first}]
+for n in range(2,10):
+    for x in range(2,n):
+        if n%x == 0:
+            print(f'{n} = {x}*{n//x}')
+            break
+    else:
+        print(f'{n} is a prime number')
+\end{lstlisting}\\
+
+\texttt{*} 예시 설명\\
+- 가장 큰 for문(loop) 안에서,\\
+- if문 만족 \texttt{→} if 안의 코드 실행 + break문 실행\\
+- if문 불만족 \texttt{→} else문 안의 코드 실행
+
+\subsection{\Large\textbf{pass Statements}}\\
+\texttt{▷} \textbf{pass}\\
+: 아무것도 실행하지 않고 해당 코드를 지나감, 반복문 및 조건문 사용 가능\\
+
+- 프로그램이 특별이 할 일은 없지만, 생성을 위해 코드가 필요할 때 사용 가능함\\
+\hspace*{1em}( 조건부의 자리 채우는 용도... )
+\begin{lstlisting}[label={list:first}]
+# example 1
+while True:
+    pass
+
+
+# example 2
+color_result=[]
+color_list=['red','blue','yellow','black','pink']
+for idx, color in enumerate(color_list):
+    if idx==3:
+        print({'color':color})
+        pass
+    else:
+        color='transparent'
+        print({'color':color})
+\end{lstlisting}\\
+
+\subsection{\Large\textbf{match Statements}}\\
+\texttt{▷} \textbf{match Statements}\\
+\texttt{-} 주어진 값을 패턴과 비교하고 해당 패턴과 일치하는 경우에, 이에 대한 블록 실행\\
+\texttt{*} 기존의 if-elif-else 구문보다 높은 가독성과 간결함이 특징\\
+
+- 문법\\
+match subject:\\
+\hspace*{2em}case pattern 1:\\
+\hspace*{4em}Code block if pattern1 matches\\
+\hspace*{2em}case pattern 2:\\
+\hspace*{4em}Code block if pattern2 matches\\
+\hspace*{2em}case _:\\
+\hspace*{4em}Default case if no other pattern matches\\
+
+\texttt{*} 주의) case 문의 pattern은 상수(constant) or 리터럴(literal) 값만 가능
+\begin{lstlisting}[label={list:first}]
+def coffee(menu):
+    match menu:
+        case 1:
+            return 'This is milk'
+        case 2:
+            return 'This is tea'
+        case 3:
+            return 'This is coffee'
+        case _:
+            return 'Menus are only three.'
+
+print(coffee(2))
+\end{lstlisting}\\
+\texttt{▷} "\verb| _|   " : \textbf{wildcard} 모든 패턴에 대해 나타낼 수 있음\\
+\texttt{▷} "\verb| ||  " operator : case pattern1-1 \verb||| case pattern1-2 \verb||| ...\\
+\texttt{▷} bind 변수: case (x,y)   \texttt{←}   (x,y)는 tuple 타입\\
+
+\texttt{▷} class(클래스) + def(함수) + match
+\begin{lstlisting}[label={list:first}]
+class Rectangle:
+    def __init__(self,h,v):
+        self.h=h
+        self.v=v
+
+def area(element):
+    match element:
+        case Rectangle(h=0, v=0):
+            print("Not a point")
+        case Rectangle(h=0, v=v):
+            print("a point")
+        case Rectangle(h=h, v=0):
+            print("a point")
+        case Rectangle(h=h, v=v):
+            print(f"h x v = {h*v}")
+
+area(Rectangle(5, 2))
+\end{lstlisting}
+\verb|>>>| h x v = 10\\
+
+\texttt{▷} \verb|__match_args__| 정의: 클래스 속성의 이름을 순서대로 포함 (type: tuple)\\
+\hspace*{1em}해당 정의로 `\textbf{위치 기반 패턴 매칭}'이 가능해짐
+\begin{lstlisting}[label={list:first}]
+class Point:
+    __match_args__=('x','y')
+
+    def __init__(self,x,y):
+        self.x=x
+        self.y=y
+
+def where(points):
+    match points:
+        case []:
+            print("No points")
+        case [Point(0,0)]:
+            print("The origin")
+        case [Point(x,y)]:
+            print(f"Single point {X}, {y}")
+        case [Point(0, y1), Point(0, y2)]:
+            print(f"Two on the Y axis at {y1}, {y2}")
+        case _:
+            print("Something else")
+
+where([Point(0,0)])
+\end{lstlisting}
+\verb|>>>| The origin\\
+
+\texttt{▷} " if " (= "guard")\\
+- 문법: case (pattern 1) (if --):
+\begin{lstlisting}[label={list:first}]
+class Num:
+    __match_args__=('x','y')
+
+    def __init__(self,x,y):
+        self.x=x
+        self.y=y
+
+x=int(input('number1: '))
+y=int(input('number2: '))
+
+# definition of number
+number=Num(x,y)
+
+match number:
+    case Num(x,y) if x==y:
+        print('x and y is same')
+    case Num(x,y):
+        print('x and y is not same')
+\end{lstlisting}
+\verb|>>>| (by input함수,   x=1,  y=2) x  and  y  is  not  same\\
+
+\texttt{▷} " as " operator\\
+- 문법:  case   pattern1-1,   pattern1-2   \textbf{as}   pattern1-3\\
+
+\texttt{▷} \texttt{*}: \texttt{*} 앞의 값을 제외한 나머지 요소들을 저장하는 변수의 앞에 붙임
+\begin{lstlisting}[label={list:first}]
+ex_list=[
+    ['KMI'],
+    ['Almond','Cookies'],
+    ['Q'],
+    ['score',88,13,28]]
+
+for i in ex_list:
+    match i:
+        case ['KMI']:
+            print(i)
+        case ['Almond','Cookies']:
+            print(i)
+        case ['Q'] | ['Z']:
+            print(i)
+        case ['score', *z]:
+            print(z)
+\end{lstlisting}
+\verb|>>>| ['KMI'], ['Almond', 'Cookies'], ['Q'], [88, 13, 28]\\
+
++ 참고) \url{https://www.geeksforgeeks.org/python/python-match-case-statement/#python-match-case-statement-syntax}\\
+
+
+\subsection{\Large\textbf{Defining Functions}}\\
+- 문법 1) 결과값이 없는 함수\\
+def variable( \textbf{Parameter} ):\\
+\hspace*{2em}함수 구성하는 code\\
+\hspace*{2em}print(---)\\
+\texttt{→} 함수 호출 방법: \textbf{variable(Parameter)}\\
+
+\texttt{*} 만약 print()로 출력: None 출력됨\\
+
+
+
+- 문법 2) 결과값이 있는 함수\\
+def variable( \textbf{Parameter} ):\\
+\hspace*{2em}함수 구성하는 code\\
+\hspace*{2em}return (---)\\
+\texttt{→} 함수 호출 방법: \textbf{print(variable(Parameter))}\\
+
+
+\subsection{\Large\textbf{More on Defining Functions}}\\
+\subsubsection{\Large\textbf{Default Argument}}
+- 함수(def) 안의 변수명과 함수(def) 밖의 변수명이 같을 때,
+\begin{lstlisting}[label={list:first}]
+i=5
+def f(arg=i):
+    print(arg)
+
+i=6
+f()
+>>> 5
+
+f(i)
+>>> 6
+\end{lstlisting}
+\texttt{→} 위의 예시의 경우,   i에 대해서 \textbf{함수의 기본값 f( )}는 함수가 정의될 당시의 i = 5 값을 출력\\
+\hspace*{2em}i=6으로 바뀌어도 함수의 기본값은 함수 정의 시점에서 결정\\
+\begin{lstlisting}[label={list:first}]
+# Share default values of called functions
+def f(a, L=[]):
+    L.append(a)
+    return L
+
+print(f(2))
+>>> [ 2 ]
+print(f(1))
+>>> [2, 1]
+
+
+# Don't share default values of called functions
+def f(a, L=None):
+    if L is None:
+        L=[]
+    L.append(a)
+    return L
+
+print(f('c'))
+>>> [`c']
+print(f(1))
+>>> [ 1 ]
+\end{lstlisting}\\
+
+\subsubsection{\Large\textbf{Keyword Arguments}}\\
+\texttt{▷} 키워드 인자 \textbf{keyword argument}: 위치와 상관 없이 직접 변수명 사용\\
+\hspace*{2em}=   함수에서 parameter에 해당하는 값\\
+\texttt{*} 위치 인자 \textbf{positional argument}: 함수에서 입력된 값의 위치에 맞춰 값 할당
+\begin{lstlisting}[label={list:first}]
+def dump(wild, state='idk', action='dddan', more='pudding'):
+    print('I', state, 'well.', end='')
+    print('If you eat', more, 'You will hugry')
+    print('Do you like', wild, 'enimal?')
+    print('umm---', state, 'too!')
+\end{lstlisting}
+- 필수 인자: wild\\
+- 기본값이 있는 선택 인자: state, action, more\\
+
+
+
+\texttt{<}  올바른 호출이 아닌 경우  \texttt{>}\\
+1) required argument missing\\
+2) non-keyword argument after a keyword argument\\
+3) duplicate value for the same argument\\
+4) unknown keyword argument\\
+
+- 함수에서 하나의 매개변수에 두 개 이상의 값 입력 불가능(키워드 or 위치 인자...)\\
+
+\texttt{▷}   \textbf{\texttt{*}args} ,    \textbf{\texttt{**}kwargs}\\
+-  \textbf{\texttt{*}args}:
+\begin{lstlisting}[label={list:first}]
+def value(*args):
+    for arg in args:
+        print(arg)
+
+value(1,4,7)
+>>> 1, 4, 7
+\end{lstlisting}\\
+
+-  \textbf{\texttt{**}kwargs}:
+\begin{lstlisting}[label={list:first}]
+def function(**kwargs):
+    for key, value in kwargs.items():
+        print(f'{key} : {value}')
+
+function(name='Harry', age='17', school='Hogwart')
+\end{lstlisting}
+\verb|>>>| name : Harry\\
+\verb|>>>| age : 17\\
+\verb|>>>| school : Hogwart\\
+
+
+\subsubsection{\Large\textbf{Special parameters}}\\
+- 함수의 정의: def  f( pos1, pos2, \texttt{/}, pos or kwd, \texttt{*}, kwd1, kwd2 ):\\
+=   Positional only, Positional or keyword, keyword only\\
+
+\texttt{▷} \large\textbf{Positional-or-Keyword Arguments}\\
+- 위의 함수 정의에서 `\texttt{/}'와  `\texttt{*}'가 없는 경우: Positional or keyword 인자 함수에 입력 가능\\
+
+\texttt{▷} \large\textbf{Positional-Only Parameters}\\
+- 특정 매개 변수를 `위치 전용'으로 표시 가능: 매개 변수의 순서 중요 \texttt{→} keyword 인자 함수 입력 불가능\\
+\hspace*{2em}위치 전용 매개 변수( pos )는 \textbf{\texttt{/} 앞}에 위치\\
+
+
+\texttt{▷} \large\textbf{Keyword-Only Arguments}\\
+
+\texttt{▷} \large\textbf{Function Examples}\\
+- \texttt{/}와 \texttt{*}에 주의:
+
+1) 함수 정의에 \texttt{/} 존재: 오직 positional 인자만 사용 (제한)\\
+2) 함수 정의에 \texttt{*} 존재: 오직 keyword 인자만 사용 (제한)\\
+
+
+\texttt{▷} \large\textbf{Recap}\\
+- 매개 변수의 이름이 정해지지 않은 경우: Positioanl 인자( 매개 변수 )\\
+
+- 변수명을 지정함으로써 code 이해, 가독성 증가, 매개변수 위치에 무관하려면: Keyword 인자\\
+
+
+\subsubsection{\Large\textbf{Arbitrary Argument Lists}}\\
+- 튜플로 묶인 인자 나열  \texttt{→}  함수 호출
+\begin{lstlisting}[label={list:first}]
+def connect(*args, sep='/'):
+    return sep.join(args)
+
+print(connect('Dumplings','are','good'))
+>>> Dumplings/are/good
+
+print(connect('Dumplings','are','good',sep='.'))
+>>> Dumplings.are.good
+\end{lstlisting}\\
+
+\subsubsection{\Large\textbf{Unpacking Argument}}\\
+- list  or  tuple  or  dictionary  에 담긴 요소를 사용하기 위한 Unpacking 과정\\
+:\textbf{ \texttt{*}} operator로 자료형 풀어줌
+\begin{lstlisting}[label={list:first}]
+# def for unpacking
+def unpack(*numbers):
+    for number in numbers:
+        print(number, end=' ')
+
+unpack(1,2,3)
+>>> 1 2 3
+print()
+unpack(*[1,2,3])
+>>> 1 2 3
+\end{lstlisting}\\
+
+\subsubsection{\Large\textbf{Lambda Expressions}}\\
+\texttt{▷} keyword `\textbf{lambda}': 두 인자의 합 출력\\
+- 문법: \textbf{lambda  매개 변수 :  표현식}
+\begin{lstlisting}[label={list:first}]
+def lambda_(x):
+    return lambda y: y + x
+
+value=lambda_(15)
+print(value(3))
+print(value(15))
+\end{lstlisting}\\
+
+\texttt{▷} \textbf{list.sort( )} 정렬\\
+\begin{lstlisting}[label={list:first}]
+pairs=[(1, 'one'),(2, 'two'), (3, 'three'), (4, 'four')]
+pairs.sort(key=lambda pair: pair[1])
+print(pairs)
+
+print()
+pairs.sort(key=lambda pair: pair[0])
+print(pairs)
+\end{lstlisting}
+\verb|>>>| [(4, 'four'), (1, 'one'), (3, 'three'), (2, 'two')]\\
+
+\verb|>>>| [(1, 'one'), (2, 'two'), (3, 'three'), (4, 'four')]\\
+
+\subsubsection{\Large\textbf{Documentation Strings}}\\
+- Documentation Strings의 몇 가지 관례 존재
+\begin{lstlisting}[label={list:first}]
+def my_function():
+    """Do nothing, but document it.
+
+No, really, it doesn't do anything.
+    """
+    pass
+
+print(my_function.__doc__)
+\end{lstlisting}
+= 위의 예시로 확인 가능\\
+
+\subsubsection{\Large\textbf{Function Annotations}}\\
+\texttt{▷} Function Annotations: 사용자 정의 함수가 사용하는 유형에 대하여 매우 선택적인 Meta 데이터 정보임\\
+: \verb|__annotations__|
+
+\subsection{\Large\textbf{Intermezzo: Coding Style}}\\
+\verb|☆| \textbf{목적} :  다른 사람들이 나의 코드를 읽기 쉽게 만드는 것, 눈이 편안한 코딩\\
+\texttt{→} 이를 위한 기본적인 코딩 스타일 가이드\\
+
++ 확인하기) \url{https://peps.python.org/pep-0008/}
+\end{spacing}\\
+
+\section{\LARGE\textbf{Data Structures}}
+\subsection{\Large\textbf{More on Lists}}
+\texttt{<} \Large\textbf{Some more Methods} \texttt{>}\\
+\normalsize
+\begin{spacing}{1.5}
+\hspace*{2em}1) list.append( X ) : list의 끝에 새로운 요소 X (int, float, str, list 등) 추가\\
+\hspace*{2em}2) list.extend( interable ) : list의 끝에 \textbf{interable}(list, dic 등)한 요소를 추가하여\\
+\hspace*{3em}list 자체를 확장시킴( 이때 dict 추가할 경우, key 값만 리스트에 들어감 )\\
+\hspace*{2em}3) list.insert( i, X ) : list에서 지정한 index (i) 위치에\\
+\hspace*{3em}새로운 요소 X (int, float, str, list 등) 추가\\
+\hspace*{2em}4) list.remove( X ) : list에서 지정한 요소 X 를 제거\\
+\hspace*{2em}5) list.pop( i ) : list에서 지정한 index (i)에 해당하는 요소 제거 후,\\
+\hspace*{3em}나머지 list 반환 (한 개의 index만 가능), i 지정 안 하면 마지막 번째 요소에 실행함\\
+\hspace*{2em}6) 변수 = list.index( X ) : list에 존재하는 요소 X의 index 값 알려줌\\
+\hspace*{3em}Method지만 `변수'로 지정한 뒤, print(변수)로 출력해야 함\\
+\hspace*{2em}7) list.clear() : 리스트의 모든 항목 삭제 (del  list[ : ] 과 유사)\\
+\hspace*{2em}8) list.count( X ) : list에 특정 요소 X가 존재하는 횟수 출력\\
+\hspace*{2em}9) list.sort(*) : list의 요소들을 올림차순( 정방향 )으로 정렬\\
+\hspace*{3em}list.sort(reverse=True) : 내림차순( 역방향 )으로 정렬\\
+\hspace*{2em}10) list.copy() : list의 얕은 복사본을 돌려줌(연산자`='사용해서 복사하는 것과 동일)
+\end{spacing}
+
+\begin{lstlisting}[label={list:first},caption=List Method]
+alpha=['a','b','c','d','e','f','g']
+alpha.append([1,2])
+print(alpha)
+alpha.extend({'a':2})
+print(alpha)
+alpha.insert(1,['v','J'])
+print(alpha)
+alpha.remove('g')
+print(alpha)
+i=alpha.index('d')
+alpha.pop(i)
+print(alpha)
+alpha.clear()
+print(alpha)
+
+j=['r','j','s','j','j','v','j']
+coun=j.count('j')
+print(coun)
+\end{lstlisting}\\
+
+\subsubsection{\Large\textbf{Using Lists as Stacks}}
+\texttt{▷} \textbf{Stack}: Method를 사용한 순서대로 해당 method들이 list에 적용되면서 쌓임\\
+
+\subsubsection{\Large\textbf{Using Lists as Queues}}
+\begin{spacing}{1.5}
+\texttt{▷} \textbf{Queue}: `선입선출(fist-in, first-out)' 방식으로 데이터를 처리하는 자료 구조\\
+\hspace*{1em}\texttt{*} 그러나 Queue의 경우, list로 구현 시, index 때문에 치명적인 속도 문제 발생\\
+\hspace*{1em}\texttt{*} 모듈 \textbf{collections}의 속성 \textbf{deque}으로 속도 문제 감소\\
+\hspace*{2em}\texttt{→} collections 모듈: dict, list, set 및 tuple에 대한 대안을 제공하는 특수 컨테이너 데이터형을 구현함
+\end{spacing}
+
+\begin{lstlisting}[label={list:first},caption=deque + list Method]
+from collections import deque
+deque_ex=deque([ list ])
+deque_ex.append(X)
+deque_ex.appendleft(x)
+deque_ex.pop()
+deque_ex.popleft()  x
+deque_ex.remove(X)
+deque_ex.rotate(num)
+print(deque_ex)
+\end{lstlisting}
+\texttt{*} 코드 안의 X는 list에 넣을 새로운 요소(int, float, str, list, dict ...)\\
+
++ 참고) \url{https://limsw.tistory.com/124} ... deque에 대해서
+
+\subsubsection{\Large\textbf{List Comprehensions}}
+\begin{spacing}{1.5}
+: 리스트를 쉽게, 짧게 한 줄로 만들 수 있는 파이썬 문법( `리스트 내포' 라고도 칭함 )\\
+\texttt{▷} 배열(또는 리스트)을 만들고 사용하기 위한 작업 `선언과 할당'을 한 줄로 간편하게 나타냄\\
+\hspace*{2em}문법: [ ( 변수를 활용한 값 ) for ( 사용할 변수 이름 ) in ( 순회할 수 있는 값 )]
+\end{spacing}
+\begin{lstlisting}[label={list:first},caption=List Comprehensions]
+size = [1,2,3,4,5,6,7,8,9,10]
+list1 = [0] * len(size)
+for i in range(len(size)):
+    list1[i] = i * 2
+print(list1)
+
+# list comprehensions
+size = [1,2,3,4,5,6,7,8,9,10]
+list1=[i*2 for i in range(len(size))]
+print(list1)
+\end{lstlisting}
+\texttt{>>>} [0, 2, 4, ... 14, 16, 18]\\
+\begin{spacing}{1.5}
++ 조건문 if로 필터링: [( 변수를 활용한 값 ) for ( 사용할 변수 이름 ) in ( 순회할 수 있는 값 ) if ( 조건문 )]\\
++ 조건문 여러 개 쓰기: [ ... if ( 조건문 1 ) if ( 조건문 2 ) ...] \texttt{←} and 쓰면 SyntaxError 발생\\
+\hspace*{5em} or 연산자: [ ... if ( 조건문 1 or 조건문 2 ) ...] \texttt{←} 한 개의 조건문에\\
++ 반복문 for문 여러 개 쓰기: [ ( 변수를 활용한 값 ) for ( 상위 반복문 ) in ( ) for ( 하위 반복문 ) in ( )]\\
++ if와 else 같이 쓰기: [(if 만족에 대한값) if (조건문) else (조건문) for문 ]
+\end{spacing}
+
+\begin{lstlisting}[label={list:first},caption=List Comprehensions]
+number=[(x,y) for x in range(2,10) for y in range(1,10) if x%2==1 ]
+print(number)
+\end{lstlisting}
+\texttt{>>>} [(3,1), (3,2), ... (5,1), ... (9,9)]\\
+
++ 파이썬에 내장된 모듈( math, array, numpy 모듈 ... ) 적용 가능\\
+
+\subsubsection{\Large\textbf{List Nested List Comprehensions}}
+\begin{spacing}{1.5}
+\texttt{▷} Nested List + List Comprehentions( 이중 리스트 내포 )\\
+\texttt{-} 문법: [[ X for ( ) in ( )] for ( ) in ( )]
+\end{spacing}
+\begin{lstlisting}[label={list:first},caption=Nested List Comprehensions]
+import numpy as np
+data=np.array([[1,2,3,4],[5,6,7,8],[9,10,11,12]])
+lists=[[row[i] for row in data] for i in range(4)]
+print(lists)
+\end{lstlisting}
+\texttt{>>>} [[1,5,9], [2,6,10], [3,7,11], [4,8,12]]\\
+
++ \textbf{zip( )}: 순회 가능한(iterable)객체를 인자로 받고, 각 객체의 원소를 튜플 형태로 반환
+\begin{lstlisting}[label={list:first},caption=zip( )]
+# zip
+star={'main-sequence':'Sun', 'giant':'Aldebaran', 'white-Dwarf':'Sirius A'}
+star_value=list(dict.values(star))
+mass=[1, 1.16, 2.06 ]
+result=list(zip(star_value,mass))
+print(result)
+
+# unzip
+unzip=star_value,mass=list(zip(*result))
+print(unzip)
+\end{lstlisting}
+\texttt{>>>} [('Sun', 1), ('Aldebaran', 1.16), ('Sirius A', 2.06)]\\
+\texttt{>>>} [('Sun', 'Aldebaran', 'Sirius A'), (1, 1.16, 2.06)]\\
+
+\subsection{\Large\textbf{The del statement}}
+\texttt{▷}\textbf{del}: index, slicing 사용 \verb|&| pop( ), clear( )과 같은 역할
+\begin{lstlisting}[label={list:first},caption=del statement]
+num=[-1, 1, 66.25, 333, 333, 1234.5]
+star={'main-sequence':'Sun', 'giant':'Aldebaran', 'white-Dwarf':'Sirius A'}
+del num[-1], star['white-Dwarf']
+del num[0:2]
+del num[:]
+print(num)
+print(star)
+\end{lstlisting}
+\texttt{>>>} [ ]\\
+\texttt{>>>} {'main-sequence':'Sun', 'giant':'Aldebaran'}\\
+
+\subsection{\Large\textbf{Tuples and Sequences}}
+\texttt{*} 정리: \textbf{Sequence Type}: 요소들이 순서대로 나열된 자료형( list, tuple, str, dict ... )\\
+\texttt{→} 이러한 타입은 indexing, slicing, concatenation(+연산자), repetition(*연산자) 적용\\
+
+\begin{tabular}{|>{\centering\arraybackslash}m{4cm}|>{\centering\arraybackslash}m{6cm}|}
+\hline
+\rowcolors[gray]{0.9}
+\verb|\textbf{Operation}| & \textbf{Result} \\
+\hline
+x in s & True if an item of s is equal to x, else False \\
+\hline
+x not in s & False if an item of s is equal to x, else True \\
+\hline
+s + t & the concatenation of s and t \\
+\hline
+s*n & equivalent to adding s to itself n times \\
+\hline
+s[i] & indexing item of s by [i] \\
+\hline
+s[i:j:k] & slice of s from i to j with step k \\
+\hline
+len(s) & length of s \\
+\hline
+min(s) & smallest item of s \\
+\hline
+max(s) & largest item of s \\
+\hline
+s.count(x) & total number of occurrences of x in s \\
+\hline
+\end{tabular}\\
+\begin{lstlisting}[label={list:first}]
+# example of 'x in s'
+print('gg' in 'eggs')
+>>> True
+\end{lstlisting}\\
+
+\texttt{▷}\textbf{Tuple}\\
+\begin{spacing}{1.5}
+\texttt{-} Tuple은 immutable 객체로서 요소 변환은 안 되지만, mutable한 객체를 요소로 넣을 수는 있음\\
+ex) T=([1, 2, 3], [4, 5, 6])\\
+
+\texttt{-} Tuple과 List가 유사해 보이지만 서로 다른 상황과 목적에서 사용됨\\
+\hspace*{1em} : tuple = immutable, heterogeneous sequence(다양한 타입을 요소로)\\
+\hspace*{1em} : list = mutable, usually homogeneous sequence(보통은 동일 타입을 요소로)\\
+\texttt{-} 0 또는 1개의 요소를 가지는 튜플( special problem )
+\end{spacing}
+\begin{lstlisting}[label={list:first}]
+empty=()
+singleton='hello',
+print(len(empty))
+print(len(singleton))
+\end{lstlisting}
+\texttt{→} \textbf{`str' 뒤에 comma를 붙여주면 type: tuple}
+
+\texttt{-} packing: `t = 123, 456, 789' 하나의 튜플에 세 요소가 들어감\\
+\texttt{-} unpacking: `n1, n2, n3= t' 세 개의 변수에 튜플 요소 할당\\
+
+\subsection{\Large\textbf{Sets}}
+\texttt{▷} \textbf{sets}
+\begin{spacing}{1.5}
+\texttt{-} 요소는 특정 정렬을 가지지 않고 더욱이 무작위 형태로 존재\\
+\texttt{-} 각각의 아이템은 Set에서 유니크하기 때문에 중복 불가능\\
+\texttt{-} 요소는 변경 불가하고 한번 추가되면 변화를 줄 수 없음( indexing, slicing 불가 )\\
+\texttt{-} set 그 자체는 변경이 가능하며 아이템 추가 및 삭제 가능(add(), update(), discard(), remove(), clear())\\
+\texttt{-} 문법: \verb|{ X }| or set( X )\\
+\hspace*{2em}\texttt{*} 요소가 없는 빈 set 생성의 경우, \textbf{type set( )}: set, type { }: dict\\
+\end{spacing}
+\textbf{\texttt{<} set( )에 대한 코드 \texttt{>}\\}
+a = set (`abracadabra') = \verb|{`abracadabra'}|\\
+b = set (`1alacazam') = \verb|{`lalacazam'}|\\
+\begin{tabular}{|>{\centering\arraybackslash}m{4cm}|>{\centering\arraybackslash}m{6cm}|>{\centering\arraybackslash}m{6cm}|}
+\hline
+\rowcolors[gray]{0.9}
+\verb|\textbf{Operation}| & \textbf{Result} & \textbf{explanation}\\
+\hline
+a & \verb|{`a',`r',`b',`c',`d'}| & unique letters in a\\
+\hline
+b & \verb|{`a',`l',`z',`c',`m'}| & unique letters in b\\
+\hline
+a - b & \verb|{`r',`b',`d'}| & letters in a but not in b\\
+\hline
+a | b & \verb|{`a',`c',`r',`d',`b',`m',`z',`l'}| & letters in a or b or both\\
+\hline
+a \& b & \verb|{`a',`c'}| & letters in both a and b\\
+\hline
+a \verb|^| b & \verb|{`r',`d',`b',`m',`z',`l'}| & letters in a or b but not both \\
+\hline
+\end{tabular}\\
+
+\texttt{-} \textbf{set comprehensions}\\
+\hspace*{2em}\texttt{*} 문법: s = \verb|{x for x in ( ) if ( )}|
+\begin{lstlisting}[label={list:first}]
+a={x for x in 'abracadabra' if x not in 'ad'}
+print(a)
+>>> {'c', 'r', 'b'}
+\end{lstlisting}\\
+
+\subsection{\Large\textbf{Dictionaries}}
+\begin{spacing}{1.5}
+\texttt{▷} \textbf{Dictionaries}\\
+\texttt{-} 문법: \verb|{ key : value }| key와 value는 한 쌍\\
+\hspace*{3em}\texttt{→} key 조건: immutable type; string, number, tuple(not mutable; only string, number, tuple)\\
+\hspace*{5em}한 딕셔너리리 안에서 key 값이 겹치면 안 됨\\
+\hspace*{3em}\texttt{→} value 조건: immutable, mutable 상관 없음\\
+\texttt{-} 사전 사용법:
+\end{spacing}
+\begin{lstlisting}[label={list:first}]
+# print specific value by key
+dic={'jack':312, 'john':1208, 'pin':816}
+print(dic['jack'])
+>>> 312
+
+# append new key and value
+dic['guido']=1128
+print(dic)
+>>> {'jack': 312, 'john': 1208, 'pin': 816, 'guido': 1128}
+
+# delete selected key and value
+del dic['john']
+print(dic)
+>>> {'jack': 312, 'pin': 816, 'guido': 1128}
+
+# create a list with a key as an element
+diction=list(dic)
+print(diction)
+>>> ['jack', 'pin', 'guido']
+
+    #same result
+print(list(key_:=dict.keys(dic)))
+>>> ['jack', 'pin', 'guido']
+
+dictionary=sorted(diction)
+print(dictionary)
+>>> ['guido', 'jack', 'pin']
+
+# check the key exist
+O='pin' in dictionary
+X='mark' in dictionary
+print(O)
+>>> True
+print(X)
+>>> False
+\end{lstlisting}
+
+\texttt{-} dict constructor\\
+\hspace*{2em}\texttt{*} 문법: newdict=dict( key1 = value1, key2 = value2 ...)\\
+
+\texttt{-} dictionary 변환: dict( )
+\begin{lstlisting}[label={list:first}]
+newdict=dict([('sape',5127),('guido',1236),('jack',1089)])
+print(newdict)
+>>> {'sape': 5127, 'guido': 1236, 'jack': 1089}
+\end{lstlisting}
+
+\texttt{-} \textbf{dict comprehensions}
+\begin{lstlisting}[label={list:first}]
+d={x:x*3 for x in range(0,10,2)}
+print(d)
+>>> {0: 0, 2: 6, 4: 12, 6: 18, 8: 24}
+\end{lstlisting}\\
+
+\subsection{\Large\textbf{Looping Techniques}}
+\begin{spacing}{1.5}
+\texttt{▷} \textbf{Dictionaries + Loop}\\
+\texttt{-} 딕셔너리 값 반복할 때, \textbf{items( )}함수 사용 \texttt{→} key와 value 접근 용이\\
+\hspace*{2em}: items( )함수로 딕셔너리의 키와 값의 쌍을 얻음
+\end{spacing}
+\begin{lstlisting}[label={list:first}]
+telescope={'telescope1':'JWST','launch1':'2021','telescope2':'Hubble ST','launch2':'1990'}
+for key, val in telescope.items():
+    print('key: {}, value: {}'.format(key,val))
+\end{lstlisting}
+\verb|>>>| key: telescope1, value: JWST\\
+\verb|>>>| key: launch1, value: 2021\\
+\verb|>>>| key: telescope2, value: Hubble ST\\
+\verb|>>>| key: launch2, value: 1990\\
+
+\texttt{-} \textbf{enumerate( )}함수: index(위치)와 해당 값을 동시에 얻음
+\begin{lstlisting}[label={list:first}]
+students=['Kim','Lee','Park','Choi','Jung']
+for number, name in enumerate(students):
+    print('student number: 20240100{}, name: {}'.format(number+1,name))
+\end{lstlisting}
+\verb|>>>| student number: 202401001, name: Kim\\
+...\\
+\verb|>>>| student number: 202401005, name: Jung\\
+
+\texttt{-} 2개 이상의 sequence 존재: \textbf{zip( )} 사용\\
+\begin{lstlisting}[label={list:first}]
+name=input('pleas enter your name:')
+studentnumber=int(input('pleas enter your student number:'))
+date=int(input('pleas enter Today\'s date:'))
+notebook=int(input('pleas enter the notebook\'s number:'))
+questions=['student-name','student-number','notebook-number','date']
+infor=[name,studentnumber,notebook,date]
+for q,a in zip(questions,infor):
+    print('{}: {}'.format(q,a))
+\end{lstlisting}
+\verb|>>>| student-name: Jung Seon Kyung\\
+\verb|>>>| student-number: 202401009\\
+\verb|>>>| notebook-number: 2\\
+\verb|>>>| date: 20250707\\
+
+\texttt{-} \textbf{reversed( )}함수: loop 거꾸로 실행하기, 역방향, 내림차순\\
+\hspace*{2em}\texttt{*} reverse( ) or slicing [::-1]과 유사하지만, 효율적인 면에서 차이남\\
+
+
+\texttt{-} set( ) + sorted( ) + for 반복문: 중복된 요소를 제외한 후, 나열\\
+
+\texttt{-} 주어진 데이터 자료 중 float(`NaN'): Not a Number의 약자로, None과 다른 의미 가짐\\
+\hspace*{2em}\texttt{→} \textbf{math 또는 numpy} 패키지의 \textbf{isnan( )}함수: 부동 소숫점 숫자가 NaN인지 확인하는 함수\\
+\begin{lstlisting}[label={list:first},caption=NaN and np.isnan( )]
+import numpy as np
+data=[51, np.nan, 26.3, 2, float('NaN'), 47]
+# Type: np.nan = float(`NaN') == <class `float'>
+
+filter=[ ]
+for value in data:
+    if not np.isnan(value):
+        filter.append(value)
+# np.isnan( ) = math.isnan( )
+
+print(filter)
+>>> [51, 26.3, 2, 47]
+\end{lstlisting}
+
++ 추가) None 과 NaN의 서로 다르게 조작하기:\\
+\begin{lstlisting}[label={list:first},caption=example of None]
+# about None (case that there are no values)
+couple={`Hong Gil-dong': `Lim Young-hee', `Go Gil-dong': None, `Park Gil-dong': `Jin Soo-mi'}
+for husband,wife in couple.items():
+    if couple[husband]!=None:
+        print(`{} -> spouse: {}'.format(husband,wife))
+    else:
+        print(`{} -> spouse: {}'.format(husband,wife))
+
+# about NaN
+import numpy as np
+new_list=[]
+list_nan=np.array([35644, 41866, 43226, np.nan, 37849, np.nan])
+list_nan[np.isnan(list_nan)]=0
+for i in range(len(list_nan)):
+    new_list.append(f`{list_nan[i]:.0f}')
+print(new_list)
+
+# difference between None and NaN
+print(np.nan==np.nan)
+print(np.nan is np.nan)
+print(np.nan==None)
+print(None==None)
+\end{lstlisting}
+\verb|>>>| Hong Gil-dong \texttt{→} spouse: Lim Young-hee\\
+\verb|>>>| Go Gil-dong \texttt{→} spouse: None\\
+\verb|>>>| Park Gil-dong \texttt{→} spouse: Jin Soo-mi\\
+
+\verb|>>>| ['35644', '41866', '43226', '0', '37849', '0']\\
+
+\verb|>>>| False, True, False, True\\
+
+
+\subsection{\Large\textbf{More on Conditions}}
+\texttt{▷} Operator\\
+\begin{spacing}{1.5}
+\texttt{-} 정리 1) \textbf{comparison operator}(비교 연산자)\\
+\hspace*{4em} \textbf{in and not in}: 해당 객체에 검색한 값이 있\texttt{/}없는지 확인하는 연산자\\
+\hspace*{4em} or \textbf{is and is not}: 두 변수가 동일 객체인지 확인하는 연산자\\
+
+\texttt{-} 정리 2) \textbf{Boolean operator}(논리 연산자):\\
+\hspace*{2em}\texttt{→} 논리 연산자 우선 순위: not \texttt{>} and \texttt{>} or, 해석 방향: 왼쪽 \texttt{→} 오른쪽\\
+\hspace*{2em} ex) A and not B or C = (A and (not B)) or C = A 이면서 B 가 아니고, 또는 C이다.
+\end{spacing}
+\begin{lstlisting}[label={list:first}, 논리 연산자 우선 순위]
+str1, str2, str3='', 'Trondheim', 'Hammer Dance'
+non_null=str1 and str2 or str3
+print(non_null)
+\end{lstlisting}
+
+\texttt{*} operator 우선 순위(priority): numerical \texttt{>} comparison \texttt{>} Boolean\\
+
+\texttt{-} 정리 3) \textbf{바다 코끼리 연산자 :=}\\
+: 변수에 객체(str, list ...) 할당함과 동시에 해당 객체 반환하여 사용할 수 있음\\
+\begin{lstlisting}[label={list:first},caption=Walrus]
+# before
+num=[-1, 1, 66.25, 333, 333, 1234.5]
+print(min(num))
+
+# after
+print(min(num:=[-1,1,66.25,333,333,1234.5]))
+
+# set( ) function
+print(set(num:=[-1, 1, 66.25, 333, 333, 1234.5]))
+
+# before
+up=[]
+i=0
+user_input = input("pleas enter the number:")
+while i<5:
+    if user_input.isdigit():
+        number = int(user_input)
+        if number > 10:
+            print("a number bigger than 10")
+            i+=1
+print(up)
+
+# after
+up=[]
+i=0
+while i<5:
+    if (user_input:=input("pleas enter the number:")).isdigit() and (number:=int(user_input))>10:
+        up.append(number)
+        print("a number bigger than 10")
+        i+=1
+print(up)
+\end{lstlisting}
+\verb|>>>| -1
+
+\verb|>>>| {1, 66.25, 333, 1234.5, -1}
+
+\verb|>>>| [입력한 10보다 큰 정수 5개]\\
+
+\texttt{*} \textbf{isdigit( )}: 문자열이 모두 숫자인지 판단하는 메소드\\
+
+
+\subsection{\Large\textbf{Comparing Sequences and Other Types}}
+\begin{spacing}{1.5}
+\texttt{▷} 같은 타입의 서로 다른 형태를 가진 시퀀스 비교하기 by Comparison Operator\\
+\texttt{-} 방법: 사전식 순서(lexicographical order): 여러 개의 항목들을 순서대로 나열하는 방법
+
+\hspace*{4em}(1,2,3,7) \texttt{<} (1,2,7)\\
+\hspace*{4em}(1,2) \texttt{<} (1,2,-1)\\
+\hspace*{4em}`ABC' \texttt{<} `Da' \texttt{<} `perl' \texttt{<} `perhaps'\\
+\end{spacing}
+
+\section{\LARGE\textbf{Modules}}
+\texttt{▷} \textbf{Module}: 프로그램 내에서 특정 기능을 수행하는 함수, 변수 또는 클래스를 담고있는 파일\\
+\textbf{\texttt{-} 모듈 생성 방법}: \textbf{모듈 이름.py}(확장자)
+\begin{lstlisting}[label={list:first},caption=Modules]
+# astro
+
+from math import pi,e
+from scipy.constants import c,h,k
+
+def plank(T,w):
+    I=((2*pi*c**2*h)/w**5)*(1/((e**((h*c)/(w*k*T)))-1))
+    return I
+
+
+def magnitude(apparent,absolute):
+    distance=10**((apparent-absolute+5)/5)
+    return distance
+\end{lstlisting}
+
+\textbf{\texttt{-} 모듈 사용 방법}:
+\begin{spacing}{1.5}
+\hspace*{2em}1) import 모듈명: 기본적인 모듈 불러오는 방법\\
+\hspace*{2em}2) 모듈명(이름 or 별칭).모듈 안의 속성: 1번 방법으로 모듈 불러올 시, 사용 방법\\
+\hspace*{2em}3) from 모듈명 import 모듈 안의 사용하려는 속성(int, list, class) : 특정 속성 불러와 사용 가능\\
+\hspace*{2em}4) from 모듈명 import *: 모듈 안의 모든 속성 불러옴\\
+\hspace*{2em}5) import 모듈명 as 별칭: 모듈명이 긴 경우, 간단하게 변경하여 사용  가능\\
+\end{spacing}
+
+\subsection{\Large\textbf{Comparing Sequences and Other Types}}
+\begin{spacing}{1.5}
+\texttt{▷} 모듈 사용 방법 (3) + (5): \textbf{from 모듈명 import 모듈 속성 as 속성 별칭}
+\begin{lstlisting}[label={list:first}]
+from math import pi as pii
+print(pii)
+>>> 3.141592...
+\end{lstlisting}
+\hspace*{2em}\texttt{*} from 모듈명 import * : 사용하기엔 편리하지만, 가독성이 떨어질 수 있음 유의\\
+
+\subsubsection{\Large\textbf{Executing modules as scripts}}
+\texttt{▷} \verb|"__main__": 의 의미|:\\
+
+\textit{when?} : 모듈 파일 자체를 직접 실행하는 경우( 인터프리터에서 모듈 파일을 실행함 )\\
+\texttt{\_\_name\_\_}는 파이썬 내부의 특별 변수 이름 \texttt{←} \texttt{"\_\_main\_\_"}가 변수에 저장됨
+\begin{lstlisting}[label={list:first}]
+# Run the Module directly into the working path
+c:\doit> python sciencespace.py
+print(__name__)
+>>> __main__
+\end{lstlisting}
++ 참고) \verb|c:\doit|= 파일 경로 (\url{https://wikidocs.net/29} 참고하여 얻은 예시 경로 )\\
+
+\textit{but} : 모듈 파일을 파이썬 셸 or 다른 파이썬 모듈에서 실행하는 경우 \texttt{→}  변수 \texttt{\_\_name\_\_}  에 모듈명 저장됨
+\begin{lstlisting}[label={list:first}]
+import sciencespace
+print(sciencespace.__name__)
+>>> sciencespace
+\end{lstlisting}
+\end{spacing}\\
+
+\subsubsection{\Large\textbf{The Module Search Path}}
+\texttt{▷} \textbf{sys}: 파이썬이 제공하는 모듈이자 일종의 파이썬 기본 내장 모듈 패키지
+\begin{lstlisting}[label={list:first}]
+# Check Python primary internal modules
+import sys
+print(sys.builtin_module_names)
+\end{lstlisting}
+\verb|>>>| \verb|('_abc', '_ast', ... , 'xxsubtype', 'zlib')|\\
+\texttt{-} \verb|sys.builtin_module_names|: 파이썬 인터프리터에 컴파일된 모든 모듈의 이름 반환\\
+
+\texttt{-} 파이썬이 모듈 \verb|&| 패키지 검색하는 순서\\
+: sys.modules \texttt{→} built-in modules \texttt{→} sys.path\\
+
+\begin{spacing}{1.5}
+\texttt{-} sys.path.append( )로 원하는 경로에 모듈 추가하기\\
+\texttt{*} import sys\\
+\hspace*{2em}sys.path\\
+\hspace*{2em}sys.path.append( `현재 모듈이 존재하는 디렉토리 경로' )\\
+\hspace*{2em}import sciencespace
+\end{spacing}\\
+
+\subsubsection{\Large\textbf{"Compiled" Python files}}
+\begin{spacing}{1.5}
+\texttt{▷} \verb|__pycache__|: 파이썬 스크립트의 \textbf{실행 효율}을 높이기 위해 생성되는 폴더\\
+\texttt{-} 사용 형식: \verb|__pycache__/module name.version.pyc|\\
+\hspace*{2em}\verb|*| cache : 컴퓨처 과학에서 자주 사용되는 데이터나 값을 임시로 저장해두는 장소( 실행 속도 \texttt{↑} )
+\end{spacing}
++ 참고)  \url{https://jins-sw.tistory.com/entry/pyc-%ED%8C%8C%EC%9D%BC%EC%97%90-%EB%8C%80%ED%95%B4%EC%84%9C}\\
+
+\subsection{\Large\textbf{Standard Modules}}
+\texttt{▷} sys.ps1 \verb|&| sys.ps2: 인터프리터의 기본과 보조 프롬프트를 지정하는 문자열
+\begin{spacing}{1.5}
+\begin{lstlisting}[label={list:first}]
+import sys
+sys.ps1= 'result> '
+print(sys.ps1)
+>>> result>
+
+print(sys.ps2)
+>>> ...
+\end{lstlisting}
+\texttt{-} sys.ps1 초기값: `\verb|>>>|' \texttt{→} `\verb|result>|' ( by \underline{sys.ps1= `바꿀 형태 입력'} )\\
+\texttt{-} sys.ps2 초기값: `... ' \\
+\end{spacing}
+
+\subsection{\Large\textbf{The dir( ) Function}}
+\begin{spacing}{1.5}
+\texttt{▷} \textbf{dir( )}: 모듈 내의 함수 or 모듈의 이름을 찾는 데 사용되는 함수임. 정렬된 리스트 형식으로 출력\\
+\texttt{-} \textbf{dir() 규모}: dir(builtins) \texttt{ > }  dir() \texttt{ > } dir(지정 모듈: sciencespace 등)
+\begin{lstlisting}[label={list:first}]
+# Specific object
+import sciencespace, sys
+print(dir(sciencespace))
+print(dir(sys))
+
+# All object in the file
+print(dir())
+
+# All object in Python
+import builtins
+print(dir(builtins))
+
+# Add
+print(dir(int))
+print(dir(str))
+print(dir(list))
+\end{lstlisting}
+\verb|>>>| [\verb|'__builtins__', ... ,'magnitude'|]\\
+\verb|>>>| [\verb|'__breakpointhook__', ... ,'winver'|]\\
+\verb|>>>| ... (생략)\\
+
+\hspace*{3em} \verb|*| 모든 형(object)의 이름을 나열함: 변수, 모듈, 함수 ...\\
+\hspace*{3em} \verb|*| \verb|#| Add 의 경우, 특정 형(int, float, str, list...)에 사용할 수 있는 함수 등 나열함
+\end{spacing}\\
+
+\subsection{\Large\textbf{Packages}}
+\begin{spacing}{1.5}
+\texttt{▷} \textbf{Packages}: 관련된 여러 모듈을 포함하는 디렉토리\\
+\texttt{-} \textbf{패키지 생성하기}\\
+\hspace*{2em}1) 패키지 파일 생성 = 모듈 포함할 디렉토리 생성 (ex: shapes)\\
+\hspace*{2em}2) 생성한 shapes 파일 내에 `\verb|__init__.py|' 이름의 파일 생성 (ex: \verb|__init__.py|)\\
+\hspace*{2em}3) 생성한 shapes 파일 내에 사용할 모듈 파일 추가 (ex: circle.py, rectangle.py, triangle.py)\\
+
+\texttt{-} \textbf{패키지 사용하기}\\
+\texttt{*} 방법: from 패키지 파일명 import 모듈 파일명
+\begin{lstlisting}[label={list:first}]
+from shapes import circle, rectangle, triangle
+print(f'area_circle: {circle.circle(4):.2f}')
+print(f'area_rectangle: {rectangle.rectangle(2,3):d}')
+print(f'area_triangle: {triangle.triangle(5,6):.0f}')
+\end{lstlisting}
+\verb|>>>| \verb|area_circle|: 50.27\\
+\verb|>>>| \verb|area_rectangle|: 6\\
+\verb|>>>| \verb|area_triangle|: 15\\
+\end{spacing}
+
+%----------------------------------------------------------------------------------------------------
+% image----------------------------------------------------------------------------------------------
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{picture/KakaoTalk_20250710_122757173.jpg}
+    \caption{another package example}
+    \label{fig:enter-label}
+\end{figure}
+% image----------------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------------------
+
+\begin{spacing}{1.5}
+해당 sound 패키지의 경우, `최상위 패키지 \texttt{ → } 서브 패키지 \texttt{ → } 모듈명' 의 구조임\\
+\texttt{*} 구조가 더 복잡한 패키지 사용방법: \textbf{from 최상위 패키지명.서브 패키지 import 모듈명}\\
+\hspace*{2em}or from 최상위 패키지명.서브 패키지명.모듈명 import 사용 객체(def, class ...)\\
+\end{spacing}
+
++ 패키지 생성 참고) \url{https://wikidocs.net/1418}
+
+\subsubsection{\Large\textbf{Importing \texttt{*} From a Package}}
+\begin{spacing}{1.5}
+\texttt{-} 기존 모듈에서 `from 모듈명 import \texttt{*}'은 모듈 안의 모든 객체를 직접적으로 입력하겠다는 의미\\
+
+\texttt{▷} package에서의 `from 패키지명 import \texttt{*}':\\
+\texttt{-} 최상위 파일 sound에 저장한 `\verb|__init__.py|' 파일에 \verb|__all__|이라는 변수 입력\\
+\hspace*{2em}ex): \verb|__all__|=["echo", "surround", "reverse"] \texttt{ ← } 서브 패키지 effects의 모듈임\\
+\texttt{-} 변수 입력 후, 기존 창에서 `from 패키지명 import \texttt{*}' 입력하면\\
+\hspace*{2em}\verb|__all__|변수에 입력한 \textbf{리스트 속 모듈}에 대해서만 사용할 수 있음\\
+\end{spacing}
+
+\subsubsection{\Large\textbf{Intra\texttt{-}package References}}
+\begin{spacing}{1.5}
+\texttt{-} \underline{서브 패키지} 기준, \underline{이웃 서브 패키지}의 서브 모듈 사용하기\\
+\hspace*{2em}ex) sound.\underline{filters}.vocoder이 sound.\underline{effects} 패키지의 echo 모듈 사용해야하는 경우\\
+\hspace*{2em}: from sound.effect import echo로 입력하여 사용 가능 = absolute import(절대 임포트)
+\end{spacing}\\
+
+\subsubsection{\Large\textbf{Packages in Multiple Directories}}
+\texttt{-} \verb|__path__| attribute 입력\\
+\hspace*{2em}: 패키지 내 모듈의 위치 찾기, 패키지가 분산된 경우에 유용하게 사용
+
+
+\section{\LARGE\textbf{Input and Ouput}}
+\subsection{\Large\textbf{Fancier Output Formating}}
+\begin{spacing}{1.5}
+\texttt{▷} \textbf{출력 방법}\\
+\texttt{-} \textbf{\texttt{\%}서식}: \texttt{\%}에 지정한 변수 값이 입력됨
+\begin{lstlisting}[label={list:first},caption=\texttt{\%} format]
+name=input('pleas enter your name: ')
+affiliation=input('please enter your university: ')
+if affiliation.startswith('chungnam'):
+    print('%s, welcome to %s'%(name,affiliation))
+\end{lstlisting}
+
+\texttt{-} \textbf{str.format()}: {}와 format({}에 입력될 값) 함수로 값이 입력됨
+\begin{lstlisting}[label={list:first},caption=str.format()]
+name=input('pleas enter your name: ')
+affiliation=input('please enter your university: ')
+if affiliation.startswith('chungnam'):
+    if affiliation.endswith('university'):
+        print('{}, welcome to {}'.format(name,affiliation))
+    else:
+        print('{}, welcome to {}university'.format(name,affiliation))
+\end{lstlisting}
+
+\texttt{-} \textbf{f-string}: f'{여기에 변수 직접 입력}' 방법으로 값이 입력됨
+\begin{lstlisting}[label={list:first},caption=f-string]
+name=input('pleas enter your name: ')
+affiliation=input('please enter your university: ')
+if affiliation.startswith('chungnam'):
+    if affiliation.endswith('university'):
+        print(f'{name}, welcome to {affiliation}')
+    else:
+        print(f'{name}, welcome to {affiliation}university')
+\end{lstlisting}
+
+\texttt{▷} str( ) \texttt{\&} repr( )\\
+
+\begin{tabular}{|>{\centering\arraybackslash}m{4cm}|>{\centering\arraybackslash}m{6cm}|>{\centering\arraybackslash}m{6cm}|}
+\hline
+\rowcolors[gray]{0.9}
+\verb|\textbf{구분}| & \textbf{str( )} & \textbf{repr( )}\\
+\hline
+성격 & 비공식적인 문자열을 출력 & 공식적인 문자열을 출력\\
+\hline
+사용 목적 & 사용자가 보기 쉽도록 & 문자열로 객체를 다시 생성\\
+\hline
+누구를 위해 & 프로그램 사용자(user) & 프로그램 개발자(developer)\\
+\hline
+\end{tabular}
+\begin{lstlisting}[label={list:first},caption=str( ) \texttt{\&} repr( )]
+value='For more effective Python study,\n you need to find your own way how to study python.'
+print(str(value))
+print(repr(value))
+\end{lstlisting}
+\verb|>>>| For more effective Python study,\\
+\hspace*{2em}you need to find your own way how to study python.\\
+\verb|>>>| `For more effective Python study, \verb|\n|you need to find your own way how to study python.'\\
+
+\texttt{-} \textbf{repr( )}가 developer에게 유용한 이유\\
+: 문자열 구조를 있는 그대로 보여줌 \texttt{ → } 어떤 형식을 띄는지 바로 알 수 있음\\
+
++ repr( )를 str( )처럼 실행하려면 \textbf{eval( )} 함수를 사용하면 됨
+\end{spacing}
+
+\subsubsection{\Large\textbf{Formatted String Literals}}
+\begin{spacing}{1.5}
+: format string literal 추가 정리\\
+\texttt{▷} \verb|% 서식|\\
+\hspace*{1em}\texttt{-} 정수 출력: \verb|'%d' % (정수 입력)|\\
+\hspace*{1em}\texttt{-} 실수 출력: \verb|'%f' % (실수 입력)|\\
+\hspace*{1em}\texttt{-} 지수 표기법: \verb|'%e' % (실수 입력)|\\
+\hspace*{1em}\texttt{-} 문자열 출력: \verb|'%s' % (문자열 입력)|\\
+\hspace*{1em}\texttt{-} 정렬 예시:\\
+\hspace*{4em}오른쪽 정렬(10칸): \verb|'%10d' % (7)|\\
+\hspace*{4em}왼쪽 정렬(10칸): \verb|'%-10s' % ('python')|\\
+\hspace*{4em}소숫점 정렬(10칸): \verb|'%10.2f' % (1.4865)|\\
+
+\texttt{▷} \verb|str.format()|\\
+\hspace*{1em}\texttt{-} 정수 출력: \verb|'{:d}'.format(정수 입력)|\\
+\hspace*{1em}\texttt{-} 실수 출력: \verb|'{:f}'.format(실수 입력)|\\
+\hspace*{1em}\texttt{-} 지수 표기법: \verb|'{:e}'.format(실수 입력)|\\
+\hspace*{1em}\texttt{-} 문자열 출력: \verb|'{:s}'.format(문자열 입력)|\\
+\hspace*{1em}\texttt{-} 정렬 예시:\\
+\hspace*{4em}오른쪽 정렬(10칸): \verb|'{:>10}'.format('pp')|\\
+\hspace*{4em}왼쪽 정렬(10칸): \verb|'{:<10}'.format('ap')|\\
+\hspace*{4em}가운데 정렬(10칸): \verb|'{:^10}'.format(13)|\\
+
+\texttt{▷} \verb|f-string|\\
+\hspace*{1em}\texttt{-} 정수 출력: \verb|f'{변수 입력:d}'|\\
+\hspace*{1em}\texttt{-} 실수 출력: \verb|f'{변수 입력:f}'|\\
+\hspace*{1em}\texttt{-} 지수 표기법: \verb|f'{변수 입력:e}'|\\
+\hspace*{1em}\texttt{-} 문자열 출력: \verb|f'{변수 입력}'|\\
+\hspace*{1em}\texttt{-} 정렬 예시:\\
+\hspace*{4em}오른쪽 정렬(10칸): \verb|f'{변수:>10}'|\\
+\hspace*{4em}왼쪽 정렬(10칸): \verb|f'{변수:<10}'|\\
+\hspace*{4em}가운데 정렬(10칸): \verb|f'{변수:^10}'|\\
+\end{spacing}
+
+\begin{spacing}{1.5}
++ 추가) \verb|f-string|에서 \textbf{`\texttt{!a}'} = \textbf{ascii( )}, \textbf{`\texttt{!s}'} = \textbf{str( )}, \textbf{`\texttt{!r}'} = \textbf{repr( )}\\
+
++ 추가) \textbf{`=' specifier}: f-string에서 어떤 단어와 변수명이 겹치는 경우 사용
+\begin{lstlisting}[label={list:first}]
+satellite='KITSAT-2'
+print(f'KOREA {satellite=}')
+\end{lstlisting}
+\end{spacing}
+\verb|>>>| KOREA satellite=`KTISAT-2'
+
+\subsubsection{\Large\textbf{The String format( ) Method}}
+\begin{spacing}{1.5}
+\texttt{▷} \verb|**|로 format()이 dictionary 생성할 수 있음\\
+\hspace*{2em}- 문법: `str'.format(\verb|**|(dict 변수))
+\begin{lstlisting}[label={list:first}]
+satellite={'KOMPSAT-1':1221,'KOREASAT-1':805,'KOREASAT-2':114}
+print('KOREASAT-1:{KOREASAT-1:d}, KOREASAT-2:{KOREASAT-2:d}, KOMPSAT-1:{KOMPSAT-1:d}'.format(**satellite))
+\end{lstlisting}
+\end{spacing}
+\verb|>>>| KOREASAT-1:805, KOREASAT-2:114, KOMPSAT-1:1221\\
+
+\texttt{-} formating으로 정렬된 열 집합 형성 가능
+\begin{lstlisting}[label={list:first}]
+for x in range(1,11):
+    print('{:<10s} {:^10s} {:>10s}'.format('*'*x, '*'*x, '*'*X))
+>>>
+*              *               *
+**             **             **
+***           ***            ***
+****          ****          ****
+*****        *****         *****
+******       ******       ******
+*******     *******      *******
+********    ********    ********
+*********  *********   *********
+********** ********** **********
+\end{lstlisting}
+
+\subsubsection{\Large\textbf{Manual String Formatting}}
+\begin{spacing}{1.5}
+\texttt{▷} format Method로도 정렬 가능 (이때 오직 \textbf{문자열}만 정렬 가능)\\
+: `str'.center(생성 칸 개수, 칸 채울 문자) \texttt{ ← } 가운데 정렬\\
+: `str'.rjust(생성 칸 개수, 칸 채울 문자) \texttt{ ← } 오른쪽 정렬\\
+: `str'.ljust(생성 칸 개수, 칸 채울 문자) \texttt{ ← } 왼쪽 정렬
+\begin{lstlisting}[label={list:first}]
+a='abcdef'
+print(repr(a).rjust(10), repr(a).center(10), end='')
+print(repr(a).ljust(10))
+>>>   'abcdef'  'abcdef' 'abcdef'
+
+# slicing and then sorting to the definitely left
+alphabet='abcdefghijk'
+print(alphabet.ljust(5)[:5])
+>>> abcde
+\end{lstlisting}\\
+\texttt{▷} 또 다른 method \textbf{zfill( )}\\
+: 문자열의 왼쪽부터 빈 공간에 0 채움
+\begin{lstlisting}[label={list:first}]
+a='CD12'
+b=a.zfill(7)
+print(b)
+>>> 000CD12
+print(b.count('0'))
+>>> 3
+\end{lstlisting}
+\end{spacing}\\
+
+\subsubsection{\Large\textbf{Old sting formatting}}
+\texttt{-} 위에서 다룬 `\verb|%| 서식'을 사용한 포매팅 방법\\
+
+...(생략)...
+
+\subsection{\Large\textbf{Reading and Writing Files}}
+\begin{spacing}{1.5}
+\texttt{▷}\textbf{open( )}
+- 문법: f(변수)=open(`filename', `mode', encoding=`unicode')\\
+\hspace*{2em}\textbf{filename}: 생성할 파일명 or 읽을 파일의 경로\\
+\hspace*{2em}\textbf{mode}: `w'(읽기모드), `r'(쓰기모드), `a'(추가모드), `b'(바이너리 모드), `t'(텍스트 모드)\\
+\hspace*{2em}\textbf{unicode}: 일반적으론 `utf-8' 사용 (CP949, ASCII ...)\\
+\texttt{▷}\textbf{close( )}\\
+- 파일을 열었으면 반드시 닫아야 함: f.close( )\\
+
+\texttt{▷} open( ) \verb|&| close( )보다 훨씬 효율적인 방법: \textbf{with 키워드}\\
+- 문법: with open(`filename', `mode', encoding=`unicode') as f:\\
+\hspace*{2em}파일을 close( )하지 않는 대신, \textbf{들여쓰기}로 나타냄
+\end{spacing}\\
+
+\subsubsection{\Large\textbf{Methods of File Objects}}
+\begin{spacing}{1.5}
+\texttt{▷} 파일 객체의 Method\\
+-  \textbf{f.read( )}: 파일 내용 전체를 가져오지만, 하나의 문자열로 반환해줌\\
+-  \textbf{f.readline( )}: 파일의 한 줄씩 읽어 문자열로 반환해주는 매소드\\
+-  \textbf{f.readlines( )}: 파일 내용 전체를 가져와 리스트로 반환해줌\\
+-  \textbf{f.reader( )}: csv 파일처럼 구조화 된 데이터 읽을 때 사용, readlines와 거의 동일 형태 출력\\
+-  \textbf{f.write(`string')}: `w' mode 일 때, 해당 매소드로 새로운 파일 작성\\
+-  \textbf{f.close( )}: open( )파일 닫아줌\\
+-  f.line( )\\
+-  f.tell( ): 현재 커서의 위치 반환 함수\\
+-  f.seek(offset, whence): 해당 위치로 파일의 커서를 옮김,\\
+\hspace*{1em}whence = 0(파일 처음 위치), 1(파일 현재), 2(파일 끝)\\
+
+... (더 많은 매소드 존재) ...\\
+
+\texttt{*} 참고)   \verb|https://blockdmask.tistory.com/454|
+
+\begin{lstlisting}[label={list:first},caption=file]
+# normal file
+with open('C:/Users/user/Downloads/jeju_2019.csv','r',encoding='utf-8') as f:
+    print(line:=f.readline())
+
+    lines=f.readlines()
+    print(lines)
+
+    print(f.read())
+
+# csv file
+import csv
+with open('C:/Users/user/Downloads/jeju_2019.csv','r',encoding='utf-8') as f:
+    # reader() is very similar with readlines
+    lines=csv.reader(f)
+    for line in lines:
+        print(line)
+\end{lstlisting}
+\end{spacing}\\
+
+\begin{spacing}{1.5}
+\texttt{▷} \textbf{dir( )}: 모듈과 마찬가지로 파일 객체에서 사용할 수 있는 함수 확인
+\begin{lstlisting}[label={list:first}]
+with open('C:/Users/user/Downloads/jeju_2019.csv','r',encoding='utf-8') as f:
+    print(dir(f))
+\end{lstlisting}
+\end{spacing}
+\verb|>>>| [ 파일 f에 들어있는 함수들 ]\\
+
+
+\subsubsection{\Large\textbf{Saving structured data with json}}
+\begin{spacing}{1.5}
+\texttt{▷} \textbf{JSON}: 형태(모듈)\\
+- 문법: \textbf{json.load(객체)} (파일 읽을 때) : JSON 파일 \texttt{ → } 딕셔너리 자료형{ } 변환\\
+\hspace*{2em} \textbf{json.dump(dict, 파일 객체)} : 딕셔너리 자료형 \texttt{ → } JSON 파일로 생성\\
+
+\texttt{*} 참고) \url{https://wikidocs.net/126088} (sys, OS, re)
+\end{spacing}\\
+
+
+\section{\LARGE\textbf{Brief Tour of the Standard Library}}
++ 몇 가지 모듈 참고) \url{https://wikidocs.net/78}
+\subsection{\Large\textbf{Operating System Interface}}
+\begin{spacing}{1.5}
+\texttt{▷} \textbf{OS}: 형태(모듈), 운영 체제와의 상호작용을 위한 여러 함수 제공\\
+\hspace*{4em}\texttt{*} 역시 dir( ) 함수로 내장 함수 확인 가능\\
+\hspace*{4em}\texttt{*} 새로운 help( )함수: Python의 온라인 도움말 기능\\
+
+- getcwd( ): 현재 작업 중인 디렉토리 돌려줌\\
+- mkdir( ): 지정한 경로에 원하는 파일명으로 새로운 파일 생성\\
+- rmdir( ): mkdir와 반대로 파일 삭제\\
+
+... (너무 많아 생략) ...\\
+
+- OS 모듈 사용 스타일: \textbf{import os} (not from os import \texttt{*})\\
+
++ 추가) 이와 비슷하게 \textbf{shutil} 모듈도 사용가능 (사용하기 더 쉽고, 수준이 높은 인터페이스 제공)\\
+\end{spacing}
+
+\subsection{\Large\textbf{File Wildcards}}
+\begin{spacing}{1.5}
+\texttt{▷} \textbf{glob}: 형태(모듈)\\
+- glob( )함수는 인자로 받은 패턴과 일치하는 모든 파일, 디렉토리를 리스트 형태로 반환
+\begin{lstlisting}[label={list:first}]
+# the standard if current path of file
+from glob import glob
+g=glob('*.py')
+for i in g:
+    print(i)
+\end{lstlisting}
+\end{spacing}\\
+
+\subsection{\Large\textbf{Command Line Arguments}}
+\begin{spacing}{1.5}
+\texttt{▷} 명령행 인자 \textbf{sys.argv}\\
+
+\texttt{▷} 명령행 옵션 \textbf{argparse} 모듈\\
+
+\subsection{\Large\textbf{Error Output Redirection and Program Termination}}
+\texttt{▷} sys 모듈의 attribute: stdin, stdout, stderr\\
+- stdin = standard input\\
+- stdout = standard output\\
+- stderr = standard error\\
+
+- 스크립트(파이썬: 스크립트 언어) 종료하는 가장 기본적인 방법: \textbf{sys.exit( )}\\
+
+\subsection{\Large\textbf{String Pattern Matching}}
+\texttt{▷} \textbf{re} 모듈(정규 표현식): 문자열에서 특정 패턴을 찾거나, 매칭되는 문자열 처리에 사용됨\\
+with Pattern Matching: match, search, findall, finditer\\
+\hspace*{2em}Substituation: sub\\
+\hspace*{2em}Splitting: split\\
+
+... (생략) ...
+\begin{lstlisting}[label={list:first}]
+#example of re.findall method
+import re
+print(re.findall('aTa','aaaabaTaa'))
+\end{lstlisting}\\
+
+
+\subsection{\Large\textbf{Mathematics}}
+\texttt{▷} \textbf{math} 모듈: 부동 소수점 연산을 위한 함수, 매소드 제공\\
+
+\texttt{▷} \textbf{random} 모듈: 무작위로 선택해주는 함수, 매소드 제공\\
+
+\texttt{▷} \textbf{statistics} 모듈: 수치 데이터의 통계적 특성 계산(평균, 중간값, 분산 등등)\\
+\begin{lstlisting}[label={list:first}]
+# math module
+import math
+print(math.log(math.e))
+print(math.log(9,3))
+
+# random module
+import random
+product=['Boom','Boom','Boom','Boom','winning','Boom','winning','Boom','Boom','Boom','Boom','Boom']
+i=0
+while i<10:
+    if random.choice(product)=='Boom':
+        i+=1
+    else:
+        print('winning')
+        break
+print(i)
+
+# statistics module
+import statistics
+
+print(avg:=statistics.mean(num:=[2.56, 7, 10, 1.44, 3, 6]))
+
+print(ran:=random.sample(range(100),10))
+
+print(median_value:=statistics.median(ran))
+
+print(statistics.variance(ran))
+\end{lstlisting}\\
++  추가)  SciPy 프로젝트   \verb|https://scipy.org|  수치 계산용 모듈 참고\\
+
+\subsection{\Large\textbf{Internet Access}}
+\texttt{▷} \textbf{urllib.request}, \textbf{smtplib} 모듈\\
+: URL에서 데이터를 읽음, 메일을 보냄\\
+
+\hspace*{5em}\texttt{<} 입력 예시  \texttt{>}\\
+from urllib.request import urlopen\\
+with urlopen('URL 주소') response:\\
+    ...
+
+import smtplib\\
+server = smtplib.SWTP(`localhost')\\
+server.sendmail(`송신인 메일 주소\texttt{@}example.org', `수신인 메일 주소\texttt{@}example.org',\\
+"""To: 수신인 메일 주소\texttt{@}example.org\\
+From: 송신인 메일 주소\texttt{@}example.org
+
+See you next week.\\
+""")\\
+server.quit( )\\
+
+\texttt{*} 주의) smtplib 모듈 예시에 대해서, 반드시 localhost에서 메일 서버가 실행되고 있어야 함\\
+
+
+\subsection{\Large\textbf{Dates and Times}}
+\texttt{▷} \textbf{datetime} 모듈: 날짜와 시간 조작
+\begin{lstlisting}[label={list:first},caption=datetime]
+# datetime
+from datetime import date
+now=date.today()
+
+birthday=date(2005,11,28)
+age=now-birthday
+print(age.days)
+\end{lstlisting}\\
+
+\subsection{\Large\textbf{Data Compression}}
+\texttt{▷} \textbf{zlib, gzip, bz2, lzma, zipfile}.. 모듈: 데이터 보관 및 압축
+\begin{lstlisting}[label={list:first}]
+# zlib
+import zlib
+data='Life is too short, you need a python.'*1000
+print(len(data))
+>>> 37000
+
+# compress
+compress_data=zlib.compress(data.encode(encoding='utf-8'))
+print(len(compress_data))
+>>> 168
+
+# return
+org_data=zlib.decompress(compress_data).decode('utf-8')
+print(len(org_data))
+>>> 37000
+\end{lstlisting}\\
+
+\subsection{\Large\textbf{Performance Measurement}}
+- 같은 문제에 대한 서로 다른 접근법의 효율(성능) 따지는 경우\\
+: 각 접근법의 처리까지 걸리는 시간 출력해줌 \texttt{ → } 성능 확인 모듈 존재\\
+
+\texttt{▷} \textbf{timeit} 모듈\\
+`from timeit import Timer' 에서 Timer은 최대 2개 인자만 받음
+\begin{lstlisting}[label={list:first}]
+# timeit
+from timeit import Timer
+print(t1:=Timer('t=a; a=b; b=t', 'a=1; b=2').timeit())
+
+print(t2:=Timer('a,b=b,a', 'a=1; b=2').timeit())
+\end{lstlisting}\\
+
+
+\subsection{\Large\textbf{Quality Control}}
+\texttt{▷} \textbf{doctest} 모듈: 어떤 객체(함수 ...)가 표시된 대로 정확하게 작동하는지 검증하는 모듈\\
+
+\hspace*{2em}\texttt{<}  입력 예시  \texttt{>}\\
+import doctest\\
+doctest.testmod( )\\
+
+\texttt{▷} \textbf{unittest} 모듈\\
+
+\subsection{\Large\textbf{Batteries Included}}
+\texttt{▷} 파이썬의 철학: \textbf{"batteries included"}
+
+\end{spacing}
+\end{document}
