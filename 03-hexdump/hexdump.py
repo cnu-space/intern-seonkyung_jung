@@ -31,12 +31,14 @@ def Hexdump(string):
 
         comparison = (tohex[-3:] * 16)[
             1:
-        ]  # 변수에 tohex값 저장(다음 값과 비교하기위해서)
+        ]  # 각 줄의 마지막 16진수 코드를 한 줄 처리 -> comparison에 저장
 
 
 # cmd 실행을 위한 코드
 
-if __name__ == "__main__":
+if (
+    __name__ == "__main__"
+):  # 어떤 구문이 사용된 파이썬 파일을 직접 실행했을 경우만 다음의 코드 실행함
     parser = argparse.ArgumentParser(description="Hexdump tool")
     parser.add_argument("file", help="파일 경로")
     args = parser.parse_args()
